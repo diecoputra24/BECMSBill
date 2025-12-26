@@ -14,6 +14,16 @@ async function bootstrap() {
     }),
   );
 
-  await app.listen(process.env.PORT ?? 3000);
+  // Enable CORS with explicit configuration
+  app.enableCors({
+    origin: ['http://localhost:3001', 'http://localhost:3000'],
+    exposedHeaders: 'Content-Length, X-Content-Type-Options',
+    methods: 'GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS',
+    allowedHeaders: '*',
+    credentials: false,
+  });
+  app.setGlobalPrefix('api/v1');
+
+  await app.listen(process.env.PORT ?? 3001);
 }
 bootstrap();
