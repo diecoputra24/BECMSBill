@@ -8,9 +8,103 @@ datasource db {
 }
 
 model Branch {
-  id        Int      @id @default(autoincrement())
-  name      String
-  address   String
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  id           Int      @id @default(autoincrement())
+  namaBranch   String
+  alamatBranch String
+  areas        Area[]
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+}
+
+model Area {
+  id        Int        @id @default(autoincrement())
+  branchId  Int
+  namaArea  String
+  kodeArea  String
+  branch    Branch     @relation(fields: [branchId], references: [id])
+  odps      ODP[]
+  customers Customer[]
+  createdAt DateTime   @default(now())
+  updatedAt DateTime   @updatedAt
+}
+
+model ODP {
+  id        Int        @id @default(autoincrement())
+  areaId    Int
+  namaOdp   String
+  portOdp   Int
+  latOdp    Float
+  longOdp   Float
+  area      Area       @relation(fields: [areaId], references: [id])
+  customers Customer[]
+  createdAt DateTime   @default(now())
+  updatedAt DateTime   @updatedAt
+}
+
+model Router {
+  id          Int       @id @default(autoincrement())
+  uuid        String    @unique @default(uuid())
+  namaRouter  String
+  hostAddress String
+  username    String
+  password    String
+  apiPort     Int       @default(8728)
+  isActive    Boolean   @default(true)
+  isolir      Boolean   @default(false)
+  packages    Package[]
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+}
+
+model Package {
+  id              Int          @id @default(autoincrement())
+  routerId        Int
+  namaPaket       String
+  hargaPaket      Float
+  mikrotikProfile String
+  displayPaket    Boolean      @default(true)
+  deskripsi       String?
+  router          Router       @relation(fields: [routerId], references: [id])
+  connections     Connection[]
+  createdAt       DateTime     @default(now())
+  updatedAt       DateTime     @updatedAt
+
+  @@map("packages")
+}
+
+model Customer {
+  id                 Int         @id @default(autoincrement())
+  namaPelanggan      String
+  alamatPelanggan    String
+  teleponPelanggan   String
+  identitasPelanggan String
+  areaId             Int
+  odpId              Int
+  odpPortId          Int
+  statusPelanggan    String      @default("ACTIVE")
+  tanggalAktif       DateTime?
+  tanggalAkhir       DateTime?
+  tanggalToleransi   DateTime?
+  area               Area        @relation(fields: [areaId], references: [id])
+  odp                ODP         @relation(fields: [odpId], references: [id])
+  connections        Connection[]
+  createdAt          DateTime    @default(now())
+  updatedAt          DateTime    @updatedAt
+
+  @@map("customers")
+}
+
+model Connection {
+  id          Int      @id @default(autoincrement())
+  pelangganId Int
+  paketId     Int
+  pppUsername String   @unique
+  pppPassword String
+  pppService  String   @default("pppoe")
+  pelanggan   Customer @relation(fields: [pelangganId], references: [id])
+  paket       Package  @relation(fields: [paketId], references: [id])
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@map("connections")
 }

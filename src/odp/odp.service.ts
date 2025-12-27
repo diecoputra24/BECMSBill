@@ -1,36 +1,36 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
-import { CreateBranchDto } from './dto/create-branch.dto';
+import { CreateOdpDto } from './dto/create-odp.dto';
 
 @Injectable()
-export class BranchService {
+export class OdpService {
     constructor(private prisma: PrismaService) { }
 
-    async create(createBranchDto: CreateBranchDto) {
-        return this.prisma.branch.create({
-            data: createBranchDto,
+    async create(createOdpDto: CreateOdpDto) {
+        return this.prisma.oDP.create({
+            data: createOdpDto,
         });
     }
 
     async findAll() {
-        return this.prisma.branch.findMany({
+        return this.prisma.oDP.findMany({
             include: {
-                areas: true,
+                area: true,
             },
         });
     }
 
     async findOne(id: number) {
-        return this.prisma.branch.findUnique({
+        return this.prisma.oDP.findUnique({
             where: { id },
             include: {
-                areas: true,
+                area: true,
             },
         });
     }
 
     async remove(id: number) {
-        return this.prisma.branch.delete({
+        return this.prisma.oDP.delete({
             where: { id },
         });
     }

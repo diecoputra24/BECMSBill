@@ -3,9 +3,9 @@ import { IsNotEmpty, IsString } from 'class-validator';
 export class CreateBranchDto {
     @IsNotEmpty()
     @IsString()
-    name: string;
+    namaBranch: string;
 
     @IsNotEmpty()
     @IsString()
-    address: string;
+    alamatBranch: string;
 }
