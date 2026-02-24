@@ -1,6 +1,10 @@
-import { IsDateString, IsInt, IsNotEmpty, IsOptional, IsString } from 'class-validator';
+import { IsArray, IsBoolean, IsDateString, IsInt, IsNotEmpty, IsNumber, IsOptional, IsString } from 'class-validator';
 
 export class CreateCustomerDto {
+    @IsOptional()
+    @IsString()
+    idPelanggan?: string;
+
     @IsNotEmpty()
     @IsString()
     namaPelanggan: string;
@@ -17,17 +21,25 @@ export class CreateCustomerDto {
     @IsString()
     identitasPelanggan: string;
 
+    @IsOptional()
+    @IsNumber()
+    latitude?: number;
+
+    @IsOptional()
+    @IsNumber()
+    longitude?: number;
+
     @IsNotEmpty()
     @IsInt()
     areaId: number;
 
-    @IsNotEmpty()
+    @IsOptional()
     @IsInt()
-    odpId: number;
+    odpId?: number;
 
-    @IsNotEmpty()
+    @IsOptional()
     @IsInt()
-    odpPortId: number;
+    odpPortId?: number;
 
     @IsOptional()
     @IsString()
@@ -44,4 +56,21 @@ export class CreateCustomerDto {
     @IsOptional()
     @IsDateString()
     tanggalToleransi?: string;
+
+    @IsOptional()
+    @IsNumber()
+    diskon?: number;
+
+    @IsOptional()
+    @IsBoolean()
+    useTax?: boolean;
+
+    @IsOptional()
+    @IsInt()
+    taxId?: number;
+
+    @IsOptional()
+    @IsArray()
+    @IsInt({ each: true })
+    addonIds?: number[];
 }

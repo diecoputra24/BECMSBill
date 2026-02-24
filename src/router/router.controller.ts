@@ -1,6 +1,7 @@
-import { Controller, Get, Post, Body, Param, Delete, ParseIntPipe } from '@nestjs/common';
+import { Controller, Get, Post, Body, Param, Delete, ParseIntPipe, Patch } from '@nestjs/common';
 import { RouterService } from './router.service';
 import { CreateRouterDto } from './dto/create-router.dto';
+import { UpdateRouterDto } from './dto/update-router.dto';
 
 @Controller('router')
 export class RouterController {
@@ -9,6 +10,11 @@ export class RouterController {
     @Post()
     create(@Body() createRouterDto: CreateRouterDto) {
         return this.routerService.create(createRouterDto);
+    }
+
+    @Patch(':uuid')
+    update(@Param('uuid') uuid: string, @Body() updateRouterDto: UpdateRouterDto) {
+        return this.routerService.update(uuid, updateRouterDto);
     }
 
     @Get()

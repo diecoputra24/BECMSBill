@@ -1,4 +1,4 @@
-import { IsInt, IsNotEmpty, IsString } from 'class-validator';
+import { IsInt, IsNotEmpty, IsString, IsOptional, IsIn } from 'class-validator';
 
 export class CreateConnectionDto {
     @IsNotEmpty()
@@ -11,13 +11,18 @@ export class CreateConnectionDto {
 
     @IsNotEmpty()
     @IsString()
-    pppUsername: string;
+    @IsIn(['NEW', 'EXISTING', 'NONE'])
+    secretMode: 'NEW' | 'EXISTING' | 'NONE';
 
-    @IsNotEmpty()
+    @IsOptional()
     @IsString()
-    pppPassword: string;
+    pppUsername?: string;
 
-    @IsNotEmpty()
+    @IsOptional()
     @IsString()
-    pppService: string;
+    pppPassword?: string;
+
+    @IsOptional()
+    @IsString()
+    pppService?: string;
 }

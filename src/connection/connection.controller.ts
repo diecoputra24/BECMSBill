@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Param, Delete, ParseIntPipe, Patch } from '@nestjs/common';
+import { Controller, Get, Post, Body, Param, Delete, ParseIntPipe, Patch, Query } from '@nestjs/common';
 import { ConnectionService } from './connection.service';
 import { CreateConnectionDto } from './dto/create-connection.dto';
 
@@ -14,6 +14,14 @@ export class ConnectionController {
     @Get()
     findAll() {
         return this.connectionService.findAll();
+    }
+
+    @Get('available-secrets/:routerId')
+    getAvailableSecrets(
+        @Param('routerId', ParseIntPipe) routerId: number,
+        @Query('profile') profile?: string
+    ) {
+        return this.connectionService.getAvailableSecrets(routerId, profile);
     }
 
     @Get(':id')

@@ -28,4 +28,12 @@ export class CreateRouterDto {
     @IsOptional()
     @IsBoolean()
     isolir?: boolean;
+
+    @IsOptional()
+    @IsString()
+    isolirProfile?: string;
+
+    @IsOptional()
+    @IsString()
+    isolirScheme?: string;
 }
